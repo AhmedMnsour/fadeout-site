@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Activating FadeOut Pro…</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f7f8fa;
+      color: #1a202c;
+    }
+    .card {
+      text-align: center;
+      padding: 48px 32px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      max-width: 400px;
+    }
+    p { font-size: 1.1rem; margin: 0; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p id="msg">Activating your Pro license…</p>
+  </div>
+  <script>
+    // TODO: replace after CWS upload (stable extension ID)
+    const EXT_ID = 'YOUR_EXTENSION_ID_HERE';
+
+    const sid = new URLSearchParams(location.search).get('session_id');
+    if (!sid) {
+      document.getElementById('msg').textContent = 'Invalid session — no session ID found.';
+    } else {
+      // Hand the session_id to the extension's activate page.
+      // The extension calls the Worker and validates with Stripe directly.
+      location.href =
+        `chrome-extension://${EXT_ID}/popup/activate.html?session_id=${encodeURIComponent(sid)}`;
+    }
+  </script>
+</body>
+</html>
