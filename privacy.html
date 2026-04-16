@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — FadeOut</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #1A202C; --surface: #2D3748; --border: #4A5568;
+      --teal: #4FD1C5; --text: #E2E8F0; --muted: #A0AEC0;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; border-bottom: 1px solid var(--border); }
+    .nav-logo { font-size: 1.25rem; font-weight: 700; color: var(--teal); text-decoration: none; }
+    main { max-width: 720px; margin: 0 auto; padding: 60px 40px 100px; }
+    h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+    .updated { color: var(--muted); font-size: 0.875rem; margin-bottom: 48px; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 36px 0 12px; }
+    p { color: var(--muted); margin-bottom: 12px; }
+    ul { color: var(--muted); padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; }
+    a { color: var(--teal); }
+    footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    @media (max-width: 600px) { nav { padding: 16px 20px; } main { padding: 40px 20px 80px; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">FadeOut</a>
+  </nav>
+
+  <main>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: April 2026</p>
+
+    <p>FadeOut ("we", "the extension") is a Chrome browser extension. This policy explains what data is collected, how it is used, and your rights regarding that data.</p>
+
+    <h2>1. Data We Collect</h2>
+    <p>FadeOut collects the minimum data necessary to function:</p>
+    <ul>
+      <li><strong>Settings and site list</strong> — your chosen sites, effect settings, and preferences are stored in Chrome's built-in sync storage (<code>chrome.storage.sync</code>). This data is managed entirely by Chrome and may sync across your devices if you are signed into Chrome.</li>
+      <li><strong>Time-on-site data</strong> — daily and weekly time totals for each targeted site are stored locally on your device (<code>chrome.storage.local</code>). This data never leaves your device.</li>
+      <li><strong>Email address (Pro users only)</strong> — if you purchase a Pro plan, your email address is stored in Chrome sync storage solely to verify your subscription status. It is used only to query our payment processor (Stripe) when checking whether your license is still active.</li>
+    </ul>
+
+    <h2>2. Data We Do Not Collect</h2>
+    <ul>
+      <li>We do not track which sites you visit beyond the ones you explicitly add to FadeOut.</li>
+      <li>We do not collect browsing history, page content, keystrokes, or any other personal information.</li>
+      <li>We do not use analytics, advertising trackers, or third-party monitoring tools.</li>
+      <li>We do not sell or share your data with any third party.</li>
+    </ul>
+
+    <h2>3. Network Requests</h2>
+    <p>FadeOut makes network requests only in the following circumstances:</p>
+    <ul>
+      <li><strong>Pro license activation</strong> — when you complete a purchase, your Stripe session ID is sent to our verification server to confirm payment and activate your license.</li>
+      <li><strong>Pro license re-validation</strong> — once every 7 days, your email address is sent to our verification server to confirm your subscription is still active. This does not happen for Lifetime plan holders or free users.</li>
+    </ul>
+    <p>Our verification server does not log or store your email beyond the duration of the request. No other network requests are made by the extension.</p>
+
+    <h2>4. Third-Party Services</h2>
+    <ul>
+      <li><strong>Stripe</strong> — used to process payments. Stripe's own <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> governs how they handle your payment information. We do not store credit card numbers.</li>
+      <li><strong>Cloudflare</strong> — our verification server runs on Cloudflare Workers. Requests are processed in Cloudflare's infrastructure. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare's Privacy Policy</a>.</li>
+    </ul>
+
+    <h2>5. Data Retention and Deletion</h2>
+    <p>All data stored by FadeOut exists in your Chrome profile or on your local device. You can delete it at any time by:</p>
+    <ul>
+      <li>Uninstalling the FadeOut extension (removes all local and sync storage).</li>
+      <li>Using the "Clear all data" option inside the extension's settings panel.</li>
+    </ul>
+    <p>To request deletion of any email data held by our verification server, email us at <a href="mailto:am.mansour97@gmail.com">am.mansour97@gmail.com</a> and we will delete it within 7 days.</p>
+
+    <h2>6. Children's Privacy</h2>
+    <p>FadeOut is not directed at children under 13. We do not knowingly collect personal information from children.</p>
+
+    <h2>7. Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Changes will be posted on this page with an updated date. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
+
+    <h2>8. Contact</h2>
+    <p>For any privacy questions or data deletion requests, contact us at <a href="mailto:am.mansour97@gmail.com">am.mansour97@gmail.com</a>.</p>
+  </main>
+
+  <footer>© 2026 FadeOut. All rights reserved.</footer>
+
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FadeOut — Make distracting sites less enjoyable</title>
+  <meta name="description" content="FadeOut is a browser extension that gradually degrades the experience on distracting websites, helping you build healthier screen habits.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #1A202C;
+      --surface:  #2D3748;
+      --border:   #4A5568;
+      --teal:     #4FD1C5;
+      --teal-dim: #2C7A7B;
+      --text:     #E2E8F0;
+      --muted:    #A0AEC0;
+      --danger:   #FC8181;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+    .nav-logo { font-size: 1.25rem; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 24px; font-size: 0.9rem; color: var(--muted); }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Sections ── */
+    section { padding: 80px 40px; max-width: 900px; margin: 0 auto; }
+
+    /* ── Hero ── */
+    .hero { text-align: center; padding-top: 100px; padding-bottom: 80px; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      color: var(--teal);
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--teal); }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: #1A202C;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: opacity .15s;
+    }
+    .hero-cta:hover { opacity: .88; text-decoration: none; }
+
+    /* ── How it works ── */
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .effect-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .effect-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .effect-name { font-weight: 600; margin-bottom: 6px; }
+    .effect-desc { font-size: 0.875rem; color: var(--muted); }
+
+    /* ── Section headings ── */
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--muted); max-width: 560px; }
+
+    /* ── Pricing ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+      align-items: start;
+    }
+    .plan-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .plan-card.featured {
+      border-color: var(--teal);
+      position: relative;
+    }
+    .plan-featured-tag {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--teal);
+      color: #1A202C;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .plan-name { font-weight: 700; font-size: 1rem; }
+    .plan-price { font-size: 2rem; font-weight: 800; letter-spacing: -1px; }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .plan-desc { font-size: 0.875rem; color: var(--muted); }
+    .plan-btn {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: opacity .15s;
+      cursor: pointer;
+    }
+    .plan-btn:hover { opacity: .85; text-decoration: none; }
+    .plan-btn-primary { background: var(--teal); color: #1A202C; }
+    .plan-btn-outline { border: 1px solid var(--border); color: var(--text); }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .faq-q { font-weight: 600; margin-bottom: 8px; }
+    .faq-a { font-size: 0.9rem; color: var(--muted); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 100%;
+    }
+    .footer-links { display: flex; gap: 20px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      nav .nav-links { display: none; }
+      section { padding: 60px 20px; }
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">FadeOut</span>
+    <div class="nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">Chrome Extension</div>
+    <h1>Make distracting sites<br><span>less enjoyable</span></h1>
+    <p>FadeOut subtly degrades the experience on sites you want to use less — fading colors, stuttering video, slowing playback — until spending time there feels genuinely unappealing.</p>
+    <a href="#pricing" class="hero-cta">Get FadeOut Pro</a>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Eight effects. All running quietly in the background.</h2>
+    <p class="section-sub">FadeOut doesn't block content — it makes the experience progressively worse the longer you stay, so your brain naturally loses interest.</p>
+    <div class="effects-grid">
+      <div class="effect-card">
+        <div class="effect-icon">🎨</div>
+        <div class="effect-name">Color Drain</div>
+        <div class="effect-desc">The page slowly desaturates toward grayscale the longer you stay.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">⏸</div>
+        <div class="effect-name">Fake Buffering</div>
+        <div class="effect-desc">Videos pause with a loading overlay at random intervals.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">🐢</div>
+        <div class="effect-name">Speed Reduction</div>
+        <div class="effect-desc">Playback speed creeps down the longer you watch.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">🌫</div>
+        <div class="effect-name">Resolution Blur</div>
+        <div class="effect-desc">Video clarity softens gradually — like a connection getting worse.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">🔇</div>
+        <div class="effect-name">Volume Drain</div>
+        <div class="effect-desc">Sound fades out and can't be turned back up.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">⏱</div>
+        <div class="effect-name">Navigation Cooldown</div>
+        <div class="effect-desc">Each click to a new page costs a brief countdown pause.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">🕐</div>
+        <div class="effect-name">Time Counter</div>
+        <div class="effect-desc">A quiet timer shows exactly how long you've been on-site.</div>
+      </div>
+      <div class="effect-card">
+        <div class="effect-icon">🚫</div>
+        <div class="effect-name">Tab Block</div>
+        <div class="effect-desc">New tabs opened from distracting sites are delayed or blocked.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple, honest pricing</h2>
+    <p class="section-sub">Free tier lets you target up to 5 sites. Pro removes all limits.</p>
+    <div class="pricing-grid">
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-desc">Up to 5 sites, all 8 effects, adjustable intensity.</div>
+        <a href="https://chromewebstore.google.com" class="plan-btn plan-btn-outline">Install free</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Monthly</div>
+        <div class="plan-price">$2.99 <span>/ mo</span></div>
+        <div class="plan-desc">Unlimited sites, stats dashboard, keyword blocking, priority support.</div>
+        <a href="#" class="plan-btn plan-btn-outline">Get Monthly</a>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-featured-tag">Most popular</div>
+        <div class="plan-name">Yearly</div>
+        <div class="plan-price">$35 <span>/ yr</span></div>
+        <div class="plan-desc">Everything in Monthly. Cancel anytime. Best value for committed users.</div>
+        <a href="#" class="plan-btn plan-btn-primary">Get Yearly</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Lifetime</div>
+        <div class="plan-price">$79</div>
+        <div class="plan-desc">One-time payment. All future updates included. Never pay again.</div>
+        <a href="#" class="plan-btn plan-btn-outline">Get Lifetime</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Does FadeOut block sites entirely?</div>
+        <div class="faq-a">No. FadeOut degrades the experience — it doesn't block access. You can always override it. The goal is to make lingering feel genuinely unrewarding, not to create a hard barrier you'll just resent.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What sites does it target?</div>
+        <div class="faq-a">You choose. Add any site you want to use less — social media, news, video platforms, anything. There are no hardcoded lists. Free users can add up to 5 sites; Pro users get unlimited.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does it track my browsing?</div>
+        <div class="faq-a">No. FadeOut runs entirely in your browser. Your site list and settings are stored in Chrome's own sync storage — never sent to any external server. The only network calls are for Pro license verification.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel my subscription?</div>
+        <div class="faq-a">Yes, anytime. Cancel from your Stripe billing portal. You keep Pro access until the end of your billing period.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">I reinstalled the extension and lost my Pro access. How do I restore it?</div>
+        <div class="faq-a">Open the extension settings panel, go to the Pro section, and enter the email you used when purchasing. Your access will be restored immediately.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 FadeOut. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="mailto:am.mansour97@gmail.com">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
