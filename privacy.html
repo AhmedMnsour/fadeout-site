@@ -40,14 +40,15 @@
     <h2>1. Data We Collect</h2>
     <p>FadeOut collects the minimum data necessary to function:</p>
     <ul>
-      <li><strong>Settings and site list</strong> — your chosen sites, effect settings, and preferences are stored in Chrome's built-in sync storage (<code>chrome.storage.sync</code>). This data is managed entirely by Chrome and may sync across your devices if you are signed into Chrome.</li>
+      <li><strong>Settings and site list</strong> — your chosen sites, effect settings, blocked keywords (Pro), schedule settings, and preferences are stored in Chrome's built-in sync storage (<code>chrome.storage.sync</code>). This data is managed entirely by Chrome and may sync across your devices if you are signed into Chrome.</li>
       <li><strong>Time-on-site data</strong> — daily and weekly time totals for each targeted site are stored locally on your device (<code>chrome.storage.local</code>). This data never leaves your device.</li>
+      <li><strong>Session state</strong> — a temporary record of which browser tabs have active blocking is held in Chrome's session storage (<code>chrome.storage.session</code>). This is cleared automatically when the browser closes and is never transmitted anywhere.</li>
       <li><strong>Email address (Pro users only)</strong> — if you purchase a Pro plan, your email address is stored in Chrome sync storage solely to verify your subscription status. It is used only to query our payment processor (Stripe) when checking whether your license is still active.</li>
     </ul>
 
     <h2>2. Data We Do Not Collect</h2>
     <ul>
-      <li>We do not track which sites you visit beyond the ones you explicitly add to FadeOut.</li>
+      <li>We do not track which sites you visit. The extension checks the current tab's URL locally on your device to determine whether it matches a site you have added — this check never leaves your browser.</li>
       <li>We do not collect browsing history, page content, keystrokes, or any other personal information.</li>
       <li>We do not use analytics, advertising trackers, or third-party monitoring tools.</li>
       <li>We do not sell or share your data with any third party.</li>
@@ -73,7 +74,7 @@
       <li>Uninstalling the FadeOut extension (removes all local and sync storage).</li>
       <li>Using the "Clear all data" option inside the extension's settings panel.</li>
     </ul>
-    <p>To request deletion of any email data held by our verification server, email us at <a href="mailto:am.mansour97@gmail.com">am.mansour97@gmail.com</a> and we will delete it within 7 days.</p>
+    <p>To request deletion of any email data held by our verification server, email us at <a href="mailto:fadeoutadmin@fadeout-extention.com">fadeoutadmin@fadeout-extention.com</a> and we will delete it within 7 days.</p>
 
     <h2>6. Children's Privacy</h2>
     <p>FadeOut is not directed at children under 13. We do not knowingly collect personal information from children.</p>
@@ -82,7 +83,7 @@
     <p>We may update this policy from time to time. Changes will be posted on this page with an updated date. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
 
     <h2>8. Contact</h2>
-    <p>For any privacy questions or data deletion requests, contact us at <a href="mailto:am.mansour97@gmail.com">am.mansour97@gmail.com</a>.</p>
+    <p>For any privacy questions or data deletion requests, contact us at <a href="mailto:fadeoutadmin@fadeout-extention.com">fadeoutadmin@fadeout-extention.com</a>.</p>
   </main>
 
   <footer>© 2026 FadeOut. All rights reserved.</footer>
